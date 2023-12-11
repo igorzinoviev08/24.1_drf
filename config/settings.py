@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'course',
+    'payment',
+    'django_filters',
 
 
 ]
