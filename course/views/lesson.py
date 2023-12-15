@@ -1,6 +1,7 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
 
 from course.models import Lesson
+from course.paginators.course import LessonPaginator
 from course.serializers.lesson import LessonSerializer
 
 
@@ -59,7 +60,9 @@ class LessonRetrieveAPIView(RetrieveAPIView):
         Attributes:
             serializer_class (LessonSerializer): Сериализатор, используемый для преобразования объекта урока в JSON.
             queryset (QuerySet): Набор объектов уроков, используемых для поиска урока, детали которого нужно получить.
+            pagination_class (LessonPaginator): Пагинатор, для отображения уроков на странице.
     """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = {IsOwner | IsModerator | IsAdminUser}
+    pagination_class = LessonPaginator
