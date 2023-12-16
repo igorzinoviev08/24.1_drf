@@ -60,28 +60,22 @@ class Lesson(models.Model):
     def __str__(self):
         return f'{self.title}'
 
-    def validator_scam_url(url):
-        """
-           Проверяет, является ли URL допустимым для использования.
-           Parameters:
-                - url (str): Проверяемый URL.
-           Raises:
-                - serializers.ValidationError: Вызывается, если URL не начинается с 'https://www.youtube.com/'.
-        """
 
-        class Subscription(models.Model):
-            """
-                Модель подписки на курс.
-                Attributes:
-                    user (ForeignKey): Ссылка на модель пользователя, который подписан на курс.
-                    course (ForeignKey): Ссылка на модель курса, на который подписан пользователь.
-                Methods:
-                    __str__(): Возвращает строковое представление объекта подписки.
-            """
-            user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="пользователь")
-            course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="курс")
+class Subscription(models.Model):
+    """
+        Модель подписки на курс.
 
-        def __str__(self):
-            return f'{self.user.email} подписан на {self.course.title}'
+        Attributes:
+            user (ForeignKey): Ссылка на модель пользователя, который подписан на курс.
+            course (ForeignKey): Ссылка на модель курса, на который подписан пользователь.
+
+        Methods:
+            __str__(): Возвращает строковое представление объекта подписки.
+    """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="пользователь")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="курс")
+
+    def __str__(self):
+        return f'{self.user.email} подписан на {self.course.title}'
 
 
