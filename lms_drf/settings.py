@@ -46,6 +46,11 @@ INSTALLED_APPS = [
     'course',
     'payment',
     'django_filters'
+    'drf-yasg',
+
+    'user',
+    'course',
+    'payment'
 
 
 ]
