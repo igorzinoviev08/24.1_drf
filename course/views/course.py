@@ -1,7 +1,9 @@
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from course.models import Course
 from course.paginators.course import CoursePaginator
 from course.serializers.course import CourseSerializer
+from permissions import IsOwner, IsModerator
 
 
 class CourseViewSet(ModelViewSet):

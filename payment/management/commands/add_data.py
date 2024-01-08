@@ -2,6 +2,8 @@ import os
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+
+from payment.services import create_stripe_session
 from users.models import User, UserRoles
 from course.models import Course, Lesson
 from payment.models import Payment
@@ -94,6 +96,7 @@ class Command(BaseCommand):
 
             is_course = random.choice([True, False])
             course_or_lesson = random.choice(courses) if is_course else random.choice(lessons)
+            session = create_stripe_session(course_or_lesson, user, amount)
 
             Payment.objects.create(
                 user=user,
@@ -102,4 +105,5 @@ class Command(BaseCommand):
                 lesson=course_or_lesson if not is_course else None,
                 amount=amount,
                 payment_method=payment_method,
+                session=session.id
             )

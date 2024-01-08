@@ -1,8 +1,10 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from course.models import Lesson
-from course.paginators.course import LessonPaginator
+from course.paginators.lesson import LessonPaginator
 from course.serializers.lesson import LessonSerializer
+from permissions import IsOwner, IsModerator
 
 
 class LessonListAPIView(ListAPIView):
@@ -12,10 +14,12 @@ class LessonListAPIView(ListAPIView):
         Attributes:
             serializer_class (LessonSerializer): Сериализатор, используемый для преобразования объектов уроков в JSON.
             queryset (QuerySet): Набор объектов уроков, используемых для построения списка.
+            pagination_class (CoursePaginator): Пагинатор, для отображения уроков на странице.
     """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated]
+    pagination_class = LessonPaginator
 
 
 class LessonCreateAPIView(CreateAPIView):
@@ -26,7 +30,7 @@ class LessonCreateAPIView(CreateAPIView):
             serializer_class (LessonSerializer): Сериализатор, используемый для преобразования JSON в объект урока.
     """
     serializer_class = LessonSerializer
-    permission_classes = {IsAdminUser}
+    permission_classes = [IsAdminUser]
 
 
 class LessonDestroyAPIView(DestroyAPIView):
@@ -37,7 +41,7 @@ class LessonDestroyAPIView(DestroyAPIView):
             queryset (QuerySet): Набор объектов уроков, используемых для поиска урока, который нужно удалить.
     """
     queryset = Lesson.objects.all()
-    permission_classes = {IsOwner | IsAdminUser}
+    permission_classes = [IsOwner | IsAdminUser]
 
 
 class LessonUpdateAPIView(UpdateAPIView):
@@ -50,7 +54,7 @@ class LessonUpdateAPIView(UpdateAPIView):
     """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = {IsOwner | IsModerator | IsAdminUser}
+    permission_classes = [IsOwner | IsModerator | IsAdminUser]
 
 
 class LessonRetrieveAPIView(RetrieveAPIView):
@@ -60,9 +64,7 @@ class LessonRetrieveAPIView(RetrieveAPIView):
         Attributes:
             serializer_class (LessonSerializer): Сериализатор, используемый для преобразования объекта урока в JSON.
             queryset (QuerySet): Набор объектов уроков, используемых для поиска урока, детали которого нужно получить.
-            pagination_class (LessonPaginator): Пагинатор, для отображения уроков на странице.
     """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = {IsOwner | IsModerator | IsAdminUser}
-    pagination_class = LessonPaginator
+    permission_classes = [IsOwner | IsModerator | IsAdminUser]

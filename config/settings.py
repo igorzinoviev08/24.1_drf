@@ -28,6 +28,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+DOMAIN_NAME = os.getenv('DOMAIN_NAME')
+
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -45,12 +47,10 @@ INSTALLED_APPS = [
     'users',
     'course',
     'payment',
-    'django_filters'
-    'drf-yasg',
+    'django_filters',
+    'drf_yasg',
 
-    'user',
-    'course',
-    'payment'
+
 
 
 ]
@@ -173,3 +173,5 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')

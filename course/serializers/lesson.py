@@ -1,4 +1,3 @@
-from django.db.migrations import serializer
 from rest_framework import serializers
 
 from course.models import Lesson
@@ -6,6 +5,7 @@ from course.validators import validator_scam_url
 
 
 class LessonSerializer(serializers.ModelSerializer):
+    url = serializers.URLField(validators=[validator_scam_url])
     """
         Сериализатор модели урока для использования в Django REST framework.
 
@@ -15,7 +15,7 @@ class LessonSerializer(serializers.ModelSerializer):
                 fields (str): Поля, которые будут сериализованы (все поля).
 
     """
-    url = serializer.URLfield(validators=[validator_scam_url])
+
     class Meta:
         model = Lesson
         fields = '__all__'
